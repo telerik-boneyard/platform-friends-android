@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" android:background="#34495e">
+    <ImageView
+        android:id="@+id/l_telerikLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/logo_telerik_devcloud"
+        android:layout_marginTop="30dp" android:layout_marginBottom="20dp"/>
+    <TextView
+        android:id="@+id/l_appName"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_below="@id/l_telerikLogo"
+        android:text="Friends"
+        android:textStyle="bold"
+        android:gravity="center_horizontal" android:layout_marginTop="5dp"/>
+    <TextView
+        android:id="@+id/l_appDescription"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/l_appName"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Sample Application"
+        android:gravity="center_horizontal" android:layout_marginBottom="20dp"/>
+    <EditText android:id="@+id/l_userName"
+              android:background="#FFFFFF"
+              android:textColor="#000000"
+              android:padding="12dp"
+              android:hint="Username"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:layout_below="@id/l_appDescription"
+              android:inputType="textPersonName"
+              android:ems="10"
+              android:layout_marginTop="5dp"
+              android:layout_marginLeft="15dp" android:layout_marginRight="15dp"
+              android:singleLine="false" android:textColorHint="#42000000" android:text="seth"/>
+    <EditText android:id="@+id/l_password"
+              android:background="#FFFFFF"
+              android:textColor="#000000"
+              android:padding="12dp"
+              android:hint="Password"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:layout_below="@id/l_userName"
+              android:inputType="textPassword"
+              android:ems="10"
+              android:layout_marginBottom="5dp"
+              android:layout_marginLeft="15dp" android:layout_marginRight="15dp"
+              android:layout_marginTop="1dp" android:textColorHint="#42000000"
+              android:text="333333"/>
+    <Button android:id="@+id/l_login"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/l_password"
+        android:text="Login"
+        android:background="#1bbc9b"
+        android:clickable="true"
+        android:layout_marginLeft="15dp" android:layout_marginRight="15dp"
+        android:layout_marginTop="3dp"/>
+    <LinearLayout
+        android:id="@+id/l_socialButtonsContainer"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/l_login"
+        android:baselineAligned="false"
+        android:visibility="visible" android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp" android:layout_marginTop="20dp"
+        android:dividerPadding="5dp"
+        android:layout_centerHorizontal="true">
+        <ImageButton
+            android:id="@+id/l_facebookLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" android:src="@drawable/icon_facebook"
+            android:background="#3598db" android:paddingTop="13dp" android:paddingBottom="14dp"
+            android:layout_marginRight="2dp"/>
+        <ImageButton
+            android:id="@+id/l_googleLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#3598db" android:src="@drawable/icon_google"
+            android:paddingTop="12dp" android:paddingBottom="13dp" android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"/>
+        <ImageButton
+            android:id="@+id/l_liveIDLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#3598db" android:paddingTop="12dp" android:paddingBottom="12dp"
+            android:src="@drawable/icon_liveid" android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"/>
+        <ImageButton
+            android:id="@+id/l_ADFSLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" android:background="#3598db" android:paddingTop="12dp"
+            android:paddingBottom="13dp" android:src="@drawable/icon_adsf"
+            android:layout_marginLeft="2dp"/>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/l_createNewUser"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/l_socialButtonsContainer"
+        android:gravity="center_horizontal"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#FFFFFF"
+        android:textSize="16dp"
+        android:text="Don't have an account?"
+        android:layout_marginTop="40dp"/>
+    <TextView
+        android:id="@+id/l_issuerSign"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#FFFFFF"
+        android:gravity="center_horizontal"
+        android:text="© 2013 Telerik Inc."
+        />
+</RelativeLayout>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="2dp"
+        android:background="#FFFFFF" >
+
+    <ImageView android:id="@+id/lvi_userImage"
+               android:layout_width="64dp"
+               android:layout_height="64dp"
+               android:gravity="center_vertical"
+               android:layout_alignParentLeft="true"
+               android:layout_marginLeft="10dp" android:layout_marginTop="10dp"
+               android:layout_marginRight="10dp" android:layout_marginBottom="10dp"
+               android:layout_alignParentTop="false" android:layout_alignParentBottom="false"
+               android:layout_centerVertical="true"/>
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/lvi_userImage">
+        <RelativeLayout
+            android:id="@+id/lvi_nameDateContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+            <TextView android:id="@+id/lvi_userName"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_alignParentLeft="true"
+                      android:gravity="center_vertical"
+                      android:textSize="14dp"
+                      android:textColor="#ff609cff"/>
+            <TextView android:id="@+id/lvi_createDate"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_alignParentRight="true"
+                      android:layout_marginRight="7dp"
+                      android:gravity="center_vertical|right"
+                      android:textSize="8dp"/>
+        </RelativeLayout>
+        <TextView android:id="@+id/lvi_postText"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:gravity="left"
+                  android:layout_below="@id/lvi_nameDateContainer"
+                  android:textSize="12dp"
+                  android:layout_marginTop="5dp"
+                  android:layout_marginBottom="5dp" />
+    </RelativeLayout>
+</RelativeLayout>

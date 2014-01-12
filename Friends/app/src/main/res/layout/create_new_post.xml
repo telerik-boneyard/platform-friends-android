@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#ffffff">
+    <RelativeLayout android:id="@+id/cna_navigationBar"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:background="#34495e">
+        <TextView android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Activity"
+            android:textColor="#ffffff"
+            android:textSize="16dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:gravity="center_horizontal"/>
+    </RelativeLayout>
+    <RelativeLayout android:id="@+id/cna_userInfo"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/cna_navigationBar" >
+        <ImageView
+            android:id="@+id/cna_userPicture"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_margin="20dp"
+            android:layout_centerVertical="true"/>
+        <TextView
+            android:id="@+id/cna_userDisplayName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_toRightOf="@id/cna_userPicture"
+            android:text="Display Name"
+            android:textSize="14dp"
+            android:textColor="#ff609cff"
+            android:textStyle="bold"
+            android:layout_margin="5dp"
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true"/>
+    </RelativeLayout>
+    <EditText
+        android:id="@+id/cna_activityText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/cna_userInfo"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="30dp"
+        android:hint="What's in your mind."
+        android:inputType="textMultiLine"
+        android:layout_marginRight="20dp"/>
+</RelativeLayout>

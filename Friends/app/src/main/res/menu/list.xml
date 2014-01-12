@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.telerik.app.ListActivity" >
+
+    <item android:id="@+id/action_add"
+        android:orderInCategory="200"
+        android:icon="@drawable/icon_add"
+        android:showAsAction="always"
+        android:visible="true"
+        android:title="Add" />
+</menu>

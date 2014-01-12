@@ -1,0 +1,9 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.telerik.app.CreateNewPostActivity" >
+    
+    <item android:id="@+id/action_post"
+        android:title="@string/action_post"
+        android:orderInCategory="100"
+        android:showAsAction="always" />
+</menu>
