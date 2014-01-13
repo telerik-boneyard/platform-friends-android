@@ -17,43 +17,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.telerik.app.ListActivity"
-            android:label="@string/title_activity_list"
-            android:parentActivityName="com.telerik.app.LoginActivity"
-            android:screenOrientation="sensorPortrait" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="LoginActivity" />
-        </activity>
-        <activity
-            android:name="com.telerik.app.DetailViewActivity"
-            android:label="@string/title_activity_detail_view"
-            android:parentActivityName="com.telerik.app.ListActivity"
-            android:screenOrientation="sensorPortrait" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="ListActivity" />
-        </activity>
-        <activity
-            android:name="com.telerik.app.CreateNewPostActivity"
-            android:label="@string/title_activity_create_new_post"
-            android:parentActivityName="com.telerik.app.ListActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="ListActivity" />
-        </activity>
-        <activity
-            android:name="com.telerik.app.CreateNewUserActivity"
-            android:label="@string/title_activity_create_new_user"
-            android:parentActivityName="com.telerik.app.LoginActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="LoginActivity" />
-        </activity>
+        <activity android:name=".ListActivity" android:screenOrientation="sensorPortrait" />
+        <activity android:name=".DetailViewActivity" android:screenOrientation="sensorPortrait" />
+        <activity android:name=".CreateNewPostActivity" android:screenOrientation="sensorPortrait" />
+        <activity android:name=".CreateNewEverliveUserActivity" android:screenOrientation="sensorPortrait" />
+        <activity android:name="com.facebook.LoginActivity" android:screenOrientation="sensorPortrait"/>
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/app_id"/>
         <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
-        <activity android:name="com.facebook.LoginActivity" android:screenOrientation="sensorPortrait"/>
     </application>
 
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />

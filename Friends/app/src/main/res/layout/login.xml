@@ -116,14 +116,18 @@
         android:textSize="16dp"
         android:text="Don't have an account?"
         android:layout_marginTop="40dp"/>
-    <TextView
-        android:id="@+id/l_issuerSign"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+    <com.facebook.widget.LoginButton android:layout_width="match_parent"
+                                     android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textColor="#FFFFFF"
-        android:gravity="center_horizontal"
-        android:text="© 2013 Telerik Inc."
-        />
+        android:id="@+id/l_faceLogin" android:textColor="#ffffff"/>
+    <!--<TextView-->
+        <!--android:id="@+id/l_issuerSign"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:textAppearance="?android:attr/textAppearanceSmall"-->
+        <!--android:textColor="#FFFFFF"-->
+        <!--android:gravity="center_horizontal"-->
+        <!--android:text="© 2013 Telerik Inc."-->
+        <!--/>-->
 </RelativeLayout>

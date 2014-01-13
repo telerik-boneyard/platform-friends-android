@@ -96,21 +96,6 @@
         android:layout_marginRight="15dp"
         android:layout_marginTop="7dp"
         android:layout_below="@id/cnu_basicElementsContainer">
-        <!--<RadioGroup-->
-            <!--android:id="@+id/cnu_genderGroup"-->
-            <!--android:layout_width="fill_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:layout_weight="12">-->
-            <!--<RadioButton android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="1"-->
-                <!--android:text="Male"/>-->
-            <!--<RadioButton android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="1"-->
-                <!--android:text="Female"/>-->
-        <!--</RadioGroup>-->
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"

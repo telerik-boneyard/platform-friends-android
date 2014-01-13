@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ToggleButton;
 
-public class CreateNewUserActivity extends Activity implements View.OnClickListener {
+public class CreateNewEverliveUserActivity extends Activity implements View.OnClickListener {
 
     private ToggleButton maleButton;
     private ToggleButton femaleButton;

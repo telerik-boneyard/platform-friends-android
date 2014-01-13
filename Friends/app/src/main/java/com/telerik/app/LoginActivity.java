@@ -72,6 +72,22 @@ public class LoginActivity extends Activity implements View.OnClickListener,
         findViewById(R.id.l_createNewUser).setOnClickListener(this);
         findViewById(R.id.l_facebookLogin).setOnClickListener(this);
         findViewById(R.id.l_googleLogin).setOnClickListener(this);
+        findViewById(R.id.l_liveIDLogin).setOnClickListener(this);
+
+//        try {
+//            PackageInfo info = getPackageManager().getPackageInfo(
+//                    "com.telerik.app",
+//                    PackageManager.GET_SIGNATURES);
+//            for (Signature signature : info.signatures) {
+//                MessageDigest md = MessageDigest.getInstance("SHA");
+//                md.update(signature.toByteArray());
+//                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+//            }
+//        } catch (PackageManager.NameNotFoundException e) {
+//
+//        } catch (NoSuchAlgorithmException e) {
+//
+//        }
 
         if (savedInstanceState == null) {
 
@@ -86,7 +102,7 @@ public class LoginActivity extends Activity implements View.OnClickListener,
                 break;
             }
             case R.id.l_createNewUser :  {
-                Intent i = new Intent(this, CreateNewUserActivity.class);
+                Intent i = new Intent(this, CreateNewEverliveUserActivity.class);
                 startActivity(i);
                 break;
             }
@@ -98,10 +114,14 @@ public class LoginActivity extends Activity implements View.OnClickListener,
                 this.onGoogleLogin(v);
                 break;
             }
+            case R.id.l_liveIDLogin : {
+                this.onLiveIDLogin(v);
+                break;
+            }
         }
     }
 
-    public void moreScopes(final View view) {
+    public void onLiveIDLogin(final View view) {
         String liveAppID = "0000000040110FD6";
         this.auth = new LiveAuthClient(this, liveAppID);
         this.auth.login(this, Arrays.asList(new String[]{"wl.basic"}), new LiveAuthListener() {
@@ -143,7 +163,13 @@ public class LoginActivity extends Activity implements View.OnClickListener,
     }
 
     private void onFacebookLogin(View view) {
-        Session session = Session.getActiveSession();
+
+        Session activeSession = Session.getActiveSession();
+
+        if (activeSession == null) {
+            activeSession = new Session(this);
+            Session.setActiveSession(activeSession);
+        }
 
         Session.StatusCallback statusCallback = new Session.StatusCallback() {
             @Override
@@ -164,17 +190,69 @@ public class LoginActivity extends Activity implements View.OnClickListener,
             }
         };
 
-        if (session == null) {
-            session = new Session(this);
-            Session.setActiveSession(session);
-            session.openForRead(new Session.OpenRequest(this).setCallback(statusCallback).setPermissions(Arrays.asList("email")));
-        } else {
-            if (!session.isOpened() && !session.isClosed()) {
-                session.openForRead(new Session.OpenRequest(this).setCallback(statusCallback));
-            } else {
-                Session.openActiveSession(this, true, statusCallback);
-            }
+        if (!activeSession.isOpened() && !activeSession.isClosed()){
+            activeSession.openForRead(new Session.OpenRequest(this).setCallback(statusCallback));
+        }else{
+            activeSession.openActiveSession(this, true, statusCallback);
         }
+
+//        if (Session.getActiveSession().isOpened()) {
+//            Toast.makeText(this, "Connected to FB", Toast.LENGTH_LONG).show();
+//        } else {
+//            Session.openActiveSession(this, true, new Session.StatusCallback() {
+//
+//                // callback when session changes state
+//                @Override
+//                public void call(Session session, SessionState state, Exception exception) {
+//                    if (session.isOpened()) {
+//                        BaseViewModel.EverliveAPP.workWith().authentication().
+//                                loginWithFacebook(session.getAccessToken()).
+//                                executeAsync(new RequestResultCallbackAction<AccessToken>() {
+//                                    @Override
+//                                    public void invoke(RequestResult<AccessToken> requestResult) {
+//                                        if (requestResult.getSuccess()) {
+//                                            AccessToken accessToken = requestResult.getValue();
+//                                            startListActivity(getBaseContext());
+//                                        }
+//                                    }
+//                                });
+//                    }
+//                }
+//            });
+//        }
+
+//        Session session = Session.getActiveSession();
+//
+//        Session.StatusCallback statusCallback = new Session.StatusCallback() {
+//            @Override
+//            public void call(Session session, SessionState sessionState, Exception e) {
+//                if (session.isOpened()) {
+//                    BaseViewModel.EverliveAPP.workWith().authentication().
+//                            loginWithFacebook(session.getAccessToken()).
+//                            executeAsync(new RequestResultCallbackAction<AccessToken>() {
+//                                @Override
+//                                public void invoke(RequestResult<AccessToken> requestResult) {
+//                                    if (requestResult.getSuccess()) {
+//                                        AccessToken accessToken = requestResult.getValue();
+//                                        startListActivity(getBaseContext());
+//                                    }
+//                                }
+//                            });
+//                }
+//            }
+//        };
+//
+//        if (session == null) {
+//            session = new Session(this);
+//            Session.setActiveSession(session);
+//            session.openForRead(new Session.OpenRequest(this).setCallback(statusCallback).setPermissions(Arrays.asList("email")));
+//        } else {
+//            if (!session.isOpened() && !session.isClosed()) {
+//                session.openForRead(new Session.OpenRequest(this).setCallback(statusCallback));
+//            } else {
+//                Session.openActiveSession(this, true, statusCallback);
+//            }
+//        }
 
 //        Session activeSession = Session.getActiveSession();
 //        if (activeSession != null) {
@@ -197,6 +275,15 @@ public class LoginActivity extends Activity implements View.OnClickListener,
 //                }
 //            });
 //        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Session session = Session.getActiveSession();
+        if (session != null && session.isOpened()) {
+            Toast.makeText(this, session.getAccessToken(), Toast.LENGTH_LONG).show();
+        }
     }
 
     public void onLogin(final View target) {
@@ -252,7 +339,7 @@ public class LoginActivity extends Activity implements View.OnClickListener,
                             if (requestResult.getSuccess()) {
                                 AccessToken accessToken = requestResult.getValue();
                                 startListActivity(context);
-                                connectionProgressDialog.hide();
+//                                connectionProgressDialog.hide();
                             }
                         }
                     });
