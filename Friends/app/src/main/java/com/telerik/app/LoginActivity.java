@@ -1,22 +1,27 @@
 package com.telerik.app;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
-import android.os.AsyncTask;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.facebook.Session;
 import com.facebook.SessionState;
-import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.auth.GoogleAuthUtil;
-import com.google.android.gms.auth.UserRecoverableAuthException;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.common.Scopes;
@@ -27,13 +32,15 @@ import com.microsoft.live.LiveAuthListener;
 import com.microsoft.live.LiveConnectClient;
 import com.microsoft.live.LiveConnectSession;
 import com.microsoft.live.LiveStatus;
-import com.telerik.everlive.sdk.core.model.system.AccessToken;
-import com.telerik.everlive.sdk.core.result.RequestResult;
-import com.telerik.everlive.sdk.core.result.RequestResultCallbackAction;
+import com.telerik.app.tasks.GoogleLoginTask;
+import com.telerik.everlive.sdk.core.EverliveApp;
 
-import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Arrays;
 
+import eqatec.analytics.monitor.AnalyticsMonitorFactory;
+import eqatec.analytics.monitor.IAnalyticsMonitor;
+import eqatec.analytics.monitor.Version;
 import model.BaseViewModel;
 
 public class LoginActivity extends Activity implements View.OnClickListener,
@@ -45,7 +52,7 @@ public class LoginActivity extends Activity implements View.OnClickListener,
     private ProgressDialog connectionProgressDialog;
 
     //region Google+
-    private static final int REQUEST_CODE_RESOLVE_ERR = 9000;
+    public static final int REQUEST_CODE_RESOLVE_ERR = 9000;
     private PlusClient mPlusClient;
     private ConnectionResult mConnectionResult;
     //endregion
@@ -62,6 +69,10 @@ public class LoginActivity extends Activity implements View.OnClickListener,
 
         getActionBar().hide();
 
+        if (getIntent().getAction() != null) {
+            this.checkAppSettings();
+        }
+
         connectionProgressDialog = new ProgressDialog(this);
         connectionProgressDialog.setMessage("Logging in ...");
 
@@ -70,90 +81,189 @@ public class LoginActivity extends Activity implements View.OnClickListener,
 
         findViewById(R.id.l_login).setOnClickListener(this);
         findViewById(R.id.l_createNewUser).setOnClickListener(this);
-        findViewById(R.id.l_facebookLogin).setOnClickListener(this);
         findViewById(R.id.l_googleLogin).setOnClickListener(this);
-        findViewById(R.id.l_liveIDLogin).setOnClickListener(this);
+        findViewById(R.id.l_ADFSLogin).setOnClickListener(this);
 
-//        try {
-//            PackageInfo info = getPackageManager().getPackageInfo(
-//                    "com.telerik.app",
-//                    PackageManager.GET_SIGNATURES);
-//            for (Signature signature : info.signatures) {
-//                MessageDigest md = MessageDigest.getInstance("SHA");
-//                md.update(signature.toByteArray());
-//                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-//            }
-//        } catch (PackageManager.NameNotFoundException e) {
-//
-//        } catch (NoSuchAlgorithmException e) {
-//
-//        }
+    }
 
-        if (savedInstanceState == null) {
+    private IAnalyticsMonitor initializeAnalyticsService(String eqatec_app_id) {
+        Version version = new Version("1.2.3");
+        IAnalyticsMonitor monitor = null;
 
+        try {
+            monitor = AnalyticsMonitorFactory.createMonitor(this, eqatec_app_id, version);
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
         }
+
+        return monitor;
+    }
+
+    private void checkAppSettings() {
+        StringBuilder sb = new StringBuilder();
+        String EOL = "\r\n";
+
+        String everlive_api_key = getString(R.string.everlive_api_key);
+        if (everlive_api_key != null && everlive_api_key.equals("your everlive api key")) {
+            sb.append("Everlive API Key is not set." + EOL);
+        } else {
+            BaseViewModel.EverliveAPP = new EverliveApp(everlive_api_key);
+        }
+
+        String facebook_app_id = getString(R.string.facebook_app_id);
+        if (facebook_app_id != null && facebook_app_id.equals("your facebook app id")) {
+//            Log.i(getString(R.string.app_name), "Facebook App ID is not set. You cannot use Facebook login.");
+            sb.append("Facebook App ID is not set. You cannot use Facebook login." + EOL);
+            setImageButtonEnabled(this, false, (ImageButton) findViewById(R.id.l_facebookLogin), R.drawable.icon_facebook);
+        } else {
+            findViewById(R.id.l_facebookLogin).setOnClickListener(this);
+        }
+
+        String live_id_client_id = getString(R.string.live_id_client_id);
+        if (live_id_client_id != null && live_id_client_id.equals("your live id client id")) {
+            sb.append("LiveID Client ID is not set. You cannot use LiveID login." + EOL);
+            setImageButtonEnabled(this, false, (ImageButton) findViewById(R.id.l_liveIDLogin), R.drawable.icon_liveid);
+        } else {
+            findViewById(R.id.l_liveIDLogin).setOnClickListener(this);
+        }
+
+        String analytics_app_id = getString(R.string.eqatec_app_id);
+        if (analytics_app_id != null && analytics_app_id.equals("your eqatec app id")) {
+            sb.append("EQATEC product key is not set. You cannot use EQATEC Analytics service." + EOL);
+        } else {
+            IAnalyticsMonitor monitor = initializeAnalyticsService(analytics_app_id);
+            BaseViewModel.getInstance().setMonitor(monitor);
+        }
+
+        for (String accountName : getAccountNames()) {
+            sb.append(accountName + EOL);
+        }
+
+        if (sb.length() > 0) {
+            this.showAlertMessage(this, sb.toString().substring(0, sb.length() - 2), null);
+        }
+    }
+
+    private AccountManager mAccountManager;
+
+    private String[] getAccountNames() {
+        mAccountManager = AccountManager.get(this);
+        Account[] accounts = mAccountManager.getAccountsByType(
+                GoogleAuthUtil.GOOGLE_ACCOUNT_TYPE);
+        String[] names = new String[accounts.length];
+        for (int i = 0; i < names.length; i++) {
+            names[i] = accounts[i].name;
+        }
+        return names;
+    }
+
+    public static void setImageButtonEnabled(Context ctxt, boolean enabled, ImageButton item,
+                                             int iconResId) {
+        item.setEnabled(enabled);
+        Drawable originalIcon = ctxt.getResources().getDrawable(iconResId);
+        Drawable icon = enabled ? originalIcon : convertDrawableToGrayScale(originalIcon);
+        item.setImageDrawable(icon);
+        if (!enabled) {
+            item.setBackgroundColor(Color.argb(255, 47, 93, 128));
+        }
+    }
+
+    public static Drawable convertDrawableToGrayScale(Drawable drawable) {
+        if (drawable == null) {
+            return null;
+        }
+        Drawable res = drawable.mutate();
+        res.setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_IN);
+        return res;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        IAnalyticsMonitor monitor = BaseViewModel.getInstance().getMonitor();
+        if (monitor != null) {
+            monitor.stop();
+        }
+        Session activeSession = Session.getActiveSession();
+        if (activeSession != null) {
+            activeSession.closeAndClearTokenInformation();
+        }
+    }
+
+    public static void showAlertMessage(Context context, String message, DialogInterface.OnClickListener listener) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+        alertDialogBuilder.setMessage(message);
+        alertDialogBuilder.setTitle(R.string.app_name);
+        alertDialogBuilder.setPositiveButton("OK", listener);
+        alertDialogBuilder.setCancelable(true);
+        alertDialogBuilder.create().show();
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.l_login : {
-                this.onLogin(v);
+                this.onLogin();
                 break;
             }
             case R.id.l_createNewUser :  {
-                Intent i = new Intent(this, CreateNewEverliveUserActivity.class);
+                Intent i = new Intent(this, CreateNewUserActivity.class);
                 startActivity(i);
                 break;
             }
             case R.id.l_facebookLogin : {
-                this.onFacebookLogin(v);
+                this.onFacebookLogin();
                 break;
             }
             case R.id.l_googleLogin : {
-                this.onGoogleLogin(v);
+                this.onGoogleLogin();
                 break;
             }
             case R.id.l_liveIDLogin : {
-                this.onLiveIDLogin(v);
+                this.onLiveIDLogin();
+                break;
+            }
+            case R.id.l_ADFSLogin : {
+                this.onAdfsLogin();
                 break;
             }
         }
     }
 
-    public void onLiveIDLogin(final View view) {
-        String liveAppID = "0000000040110FD6";
+    private void onAdfsLogin() {
+        connectionProgressDialog.show();
+        // https is required for ADFS login.
+        BaseViewModel.EverliveAPP.getConnectionSettings().setUseHttps(true);
+        BaseViewModel.EverliveAPP.workWith().authentication().
+                loginWithADFS(this.username.getText().toString(), this.password.getText().toString()).
+                executeAsync(new LoginRequestResultCallbackAction(this, "ADFS"));
+        connectionProgressDialog.dismiss();
+    }
+
+    public void onLiveIDLogin() {
+        String liveAppID = getString(R.string.live_id_client_id);
         this.auth = new LiveAuthClient(this, liveAppID);
         this.auth.login(this, Arrays.asList(new String[]{"wl.basic"}), new LiveAuthListener() {
             public void onAuthComplete(LiveStatus status, LiveConnectSession session, Object userState) {
                 if (status == LiveStatus.CONNECTED) {
-//                    resultTextView.setText("Signed in.");
-//                    Toast.makeText(view.getContext(), "Signed in with LiveID! and the token is " + session.getAccessToken(), Toast.LENGTH_LONG).show();
                     String liveIdAccessToken = session.getAccessToken();
-                    BaseViewModel.EverliveAPP.workWith().authentication().
-                            loginWithLiveId(liveIdAccessToken).executeAsync(new RequestResultCallbackAction() {
-                        @Override
-                        public void invoke(RequestResult requestResult) {
-                            if (requestResult.getSuccess()) {
-                                AccessToken accessToken = (AccessToken) requestResult.getValue();
-                                startListActivity(LoginActivity.this);
-                            }
-                        }
-                    });
+                    BaseViewModel.EverliveAPP.workWith().
+                            authentication().
+                            loginWithLiveId(liveIdAccessToken).executeAsync(new LoginRequestResultCallbackAction(LoginActivity.this, "LiveID"));
                     client = new LiveConnectClient(session);
                 } else {
-                    Toast.makeText(view.getContext(), "Not Signed in with LiveID!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getBaseContext(), "Not Signed in with LiveID!", Toast.LENGTH_LONG).show();
                     client = null;
                 }
             }
             public void onAuthError(LiveAuthException exception, Object userState) {
-                Toast.makeText(view.getContext(), "Error signing in: " + exception.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), "Error signing in: " + exception.getMessage(), Toast.LENGTH_LONG).show();
                 client = null;
             }
         });
     }
 
-    private void onGoogleLogin(View view) {
+    private void onGoogleLogin() {
         this.mPlusClient = new PlusClient
                     .Builder(this, this, this)
                     .setScopes(Scopes.PLUS_LOGIN + " " + "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email")
@@ -162,7 +272,7 @@ public class LoginActivity extends Activity implements View.OnClickListener,
         this.mPlusClient.connect();
     }
 
-    private void onFacebookLogin(View view) {
+    private void onFacebookLogin() {
 
         Session activeSession = Session.getActiveSession();
 
@@ -175,17 +285,10 @@ public class LoginActivity extends Activity implements View.OnClickListener,
             @Override
             public void call(Session session, SessionState sessionState, Exception e) {
                 if (session.isOpened()) {
-                    BaseViewModel.EverliveAPP.workWith().authentication().
+                    BaseViewModel.EverliveAPP.workWith().
+                            authentication().
                             loginWithFacebook(session.getAccessToken()).
-                            executeAsync(new RequestResultCallbackAction<AccessToken>() {
-                                @Override
-                                public void invoke(RequestResult<AccessToken> requestResult) {
-                                    if (requestResult.getSuccess()) {
-                                        AccessToken accessToken = requestResult.getValue();
-                                        startListActivity(getBaseContext());
-                                    }
-                                }
-                            });
+                            executeAsync(new LoginRequestResultCallbackAction(LoginActivity.this, "Facebook"));
                 }
             }
         };
@@ -195,117 +298,20 @@ public class LoginActivity extends Activity implements View.OnClickListener,
         }else{
             activeSession.openActiveSession(this, true, statusCallback);
         }
-
-//        if (Session.getActiveSession().isOpened()) {
-//            Toast.makeText(this, "Connected to FB", Toast.LENGTH_LONG).show();
-//        } else {
-//            Session.openActiveSession(this, true, new Session.StatusCallback() {
-//
-//                // callback when session changes state
-//                @Override
-//                public void call(Session session, SessionState state, Exception exception) {
-//                    if (session.isOpened()) {
-//                        BaseViewModel.EverliveAPP.workWith().authentication().
-//                                loginWithFacebook(session.getAccessToken()).
-//                                executeAsync(new RequestResultCallbackAction<AccessToken>() {
-//                                    @Override
-//                                    public void invoke(RequestResult<AccessToken> requestResult) {
-//                                        if (requestResult.getSuccess()) {
-//                                            AccessToken accessToken = requestResult.getValue();
-//                                            startListActivity(getBaseContext());
-//                                        }
-//                                    }
-//                                });
-//                    }
-//                }
-//            });
-//        }
-
-//        Session session = Session.getActiveSession();
-//
-//        Session.StatusCallback statusCallback = new Session.StatusCallback() {
-//            @Override
-//            public void call(Session session, SessionState sessionState, Exception e) {
-//                if (session.isOpened()) {
-//                    BaseViewModel.EverliveAPP.workWith().authentication().
-//                            loginWithFacebook(session.getAccessToken()).
-//                            executeAsync(new RequestResultCallbackAction<AccessToken>() {
-//                                @Override
-//                                public void invoke(RequestResult<AccessToken> requestResult) {
-//                                    if (requestResult.getSuccess()) {
-//                                        AccessToken accessToken = requestResult.getValue();
-//                                        startListActivity(getBaseContext());
-//                                    }
-//                                }
-//                            });
-//                }
-//            }
-//        };
-//
-//        if (session == null) {
-//            session = new Session(this);
-//            Session.setActiveSession(session);
-//            session.openForRead(new Session.OpenRequest(this).setCallback(statusCallback).setPermissions(Arrays.asList("email")));
-//        } else {
-//            if (!session.isOpened() && !session.isClosed()) {
-//                session.openForRead(new Session.OpenRequest(this).setCallback(statusCallback));
-//            } else {
-//                Session.openActiveSession(this, true, statusCallback);
-//            }
-//        }
-
-//        Session activeSession = Session.getActiveSession();
-//        if (activeSession != null) {
-//            activeSession.addCallback(new Session.StatusCallback() {
-//                @Override
-//                public void call(Session session, SessionState sessionState, Exception e) {
-//                    if (session.isOpened()) {
-//                    BaseViewModel.EverliveAPP.workWith().authentication().
-//                            loginWithFacebook(session.getAccessToken()).
-//                            executeAsync(new RequestResultCallbackAction<AccessToken>() {
-//                                @Override
-//                                public void invoke(RequestResult<AccessToken> requestResult) {
-//                                    if (requestResult.getSuccess()) {
-//                                        AccessToken accessToken = requestResult.getValue();
-//                                        startListActivity(getBaseContext());
-//                                    }
-//                                }
-//                            });
-//                }
-//                }
-//            });
-//        }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Session session = Session.getActiveSession();
-        if (session != null && session.isOpened()) {
-            Toast.makeText(this, session.getAccessToken(), Toast.LENGTH_LONG).show();
-        }
-    }
-
-    public void onLogin(final View target) {
+    public void onLogin() {
         connectionProgressDialog.show();
-        BaseViewModel.EverliveAPP.workWith().authentication().
+        BaseViewModel.EverliveAPP.workWith().
+                authentication().
                 login(this.username.getText().toString(), this.password.getText().toString()).
-                executeAsync(new RequestResultCallbackAction() {
-                    @Override
-                    public void invoke(RequestResult requestResult) {
-                        if (requestResult.getSuccess()) {
-                            connectionProgressDialog.dismiss();
-                            startListActivity(target.getContext());
-                        } else {
-                            connectionProgressDialog.dismiss();
-                        }
-                    }
-                });
+                executeAsync(new LoginRequestResultCallbackAction(this, "Regular"));
+        connectionProgressDialog.dismiss();
     }
 
-    private void startListActivity(Context context) {
-        Intent i = new Intent(context, ListActivity.class);
-        startActivity(i);
+    public static void startListActivity(Activity activity) {
+        Intent i = new Intent(activity, ListActivity.class);
+        activity.startActivity(i);
     }
 
     @Override
@@ -322,47 +328,26 @@ public class LoginActivity extends Activity implements View.OnClickListener,
 
     @Override
     public void onConnected(Bundle bundle) {
-        final String accountName = mPlusClient.getAccountName();
+//        final String accountName = mPlusClient.getAccountName();
+        final String accountName;
         final Context context = this.getApplicationContext();
-        AsyncTask task = new AsyncTask() {
-            private String token;
-
-            @Override
-            protected Object doInBackground(Object... params) {
-                String scope = "oauth2: " + Scopes.PLUS_LOGIN + " " + Scopes.PLUS_PROFILE;
-                try {
-                    this.token = GoogleAuthUtil.getToken(context, accountName, "oauth2:" + Scopes.PLUS_LOGIN + " " +
-                            "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email");
-                    BaseViewModel.EverliveAPP.workWith().authentication().loginWithGoogle(this.token).execute(new RequestResultCallbackAction<AccessToken>() {
-                        @Override
-                        public void invoke(RequestResult<AccessToken> requestResult) {
-                            if (requestResult.getSuccess()) {
-                                AccessToken accessToken = requestResult.getValue();
-                                startListActivity(context);
-//                                connectionProgressDialog.hide();
-                            }
-                        }
-                    });
-                } catch (UserRecoverableAuthException e) {
-                    // This error is recoverable, so we could fix this
-                    // by displaying the intent to the user.
-                    Log.e("FriendsApp", e.toString());
-                    Intent recover = e.getIntent();
-                    startActivityForResult(recover, REQUEST_CODE_RESOLVE_ERR);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (GoogleAuthException e) {
-                    e.printStackTrace();
-                }
-                return null;
-            }
-        };
-        task.execute((Void) null);
+        GoogleLoginTask task;
+        String[] accounts = getAccountNames();
+        if (accounts.length > 1) {
+            new AccountChooser(this, accounts).show();
+//            accountName = BaseViewModel.getInstance().getSelectedAccount();
+//            task = new GoogleLoginTask(context, accountName);
+//            task.execute((Void) null);
+        } else {
+            accountName = accounts[0];
+            task = new GoogleLoginTask(this, accountName);
+            task.execute((Void) null);
+        }
     }
 
     @Override
     public void onDisconnected() {
-        Log.d("FriendsApp", "disconnected");
+        Log.d(getString(R.string.app_name), "disconnected");
     }
 
     @Override

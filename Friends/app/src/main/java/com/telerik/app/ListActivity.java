@@ -44,9 +44,6 @@ public class ListActivity extends Activity {
         this.posts = new ArrayList<Post>();
         this.postsAdapter = new PostAdapter(this, R.layout.listview_item_row, posts);
 
-//        View header = getLayoutInflater().inflate(R.layout.listview_header_row, null);
-//        listView.addHeaderView(header);
-
         listView.setAdapter(postsAdapter);
 
         ActionBar actionBar = getActionBar();
@@ -63,14 +60,19 @@ public class ListActivity extends Activity {
                 if (selectedPost != null) {
                     BaseViewModel.getInstance().setSelectedPost(selectedPost);
                     Intent i = new Intent(getBaseContext(), DetailViewActivity.class);
+                    i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                     startActivity(i);
                 }
             }
         });
+    }
 
-        if (savedInstanceState == null) {
-
-        }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i = new Intent(this, LoginActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(i);
     }
 
     private void loadPosts(final ListView target, final ListActivity listActivity) {
@@ -102,7 +104,8 @@ public class ListActivity extends Activity {
     protected void onDestroy() {
         super.onDestroy();
         if (isFinishing()) {
-            BaseViewModel.EverliveAPP.setAccessToken(null);
+            BaseViewModel.EverliveAPP.workWith().authentication().logout().executeAsync(null);
+            BaseViewModel.getInstance().setLoggedUser(null);
         }
     }
 
@@ -119,6 +122,7 @@ public class ListActivity extends Activity {
         switch (item.getItemId()) {
             case R.id.action_add : {
                 Intent i = new Intent(this, CreateNewPostActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 startActivity(i);
             }
             default : return super.onOptionsItemSelected(item);

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--your facebook app id-->
+    <string name="facebook_app_id">1408629486049918</string>
+    <!--your live id client id-->
+    <string name="live_id_client_id">000000004C10D1AF</string>
+    <!--your everlive api key-->
+    <string name="everlive_api_key">9Hszw6CETUzpynmN</string>
+    <!--your eqatec app id-->
+    <string name="eqatec_app_id">a9617707352f4e05b3b94eb391d5ca19</string>
+</resources>

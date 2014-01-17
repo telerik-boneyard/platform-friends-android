@@ -7,14 +7,18 @@ import com.telerik.everlive.sdk.core.EverliveApp;
 import java.util.Hashtable;
 import java.util.UUID;
 
+import eqatec.analytics.monitor.IAnalyticsMonitor;
+
 public class BaseViewModel {
-    private static final String API_KEY = "9Hszw6CETUzpynmN";
-    public static final EverliveApp EverliveAPP = new EverliveApp(API_KEY);
+//    private static String API_KEY = "E8tMoGEClJf0xmvV";
+    public static EverliveApp EverliveAPP;
 
     private Post selectedPost;
     private Hashtable<UUID, Bitmap> pictures = new Hashtable<UUID, Bitmap>();
     private Hashtable<UUID, MyUser> users = new Hashtable<UUID, MyUser>();
     private MyUser loggedUser;
+    private String selectedAccount;
+    private IAnalyticsMonitor monitor;
 
     private static BaseViewModel instance;
 
@@ -48,6 +52,22 @@ public class BaseViewModel {
 
     public void setLoggedUser(MyUser loggedUser) {
         this.loggedUser = loggedUser;
+    }
+
+    public String getSelectedAccount() {
+        return selectedAccount;
+    }
+
+    public void setSelectedAccount(String selectedAccount) {
+        this.selectedAccount = selectedAccount;
+    }
+
+    public IAnalyticsMonitor getMonitor() {
+        return monitor;
+    }
+
+    public void setMonitor(IAnalyticsMonitor monitor) {
+        this.monitor = monitor;
     }
 
     private BaseViewModel() {

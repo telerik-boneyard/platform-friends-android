@@ -27,7 +27,7 @@
             android:id="@+id/dv_userPicture"
             android:layout_width="64dp"
             android:layout_height="64dp"
-            android:layout_margin="20dp" android:layout_centerVertical="true"/>
+            android:layout_margin="15dp" android:layout_centerVertical="true"/>
         <TextView
             android:id="@+id/dv_userDisplayName"
             android:layout_width="wrap_content"
@@ -48,40 +48,49 @@
             android:textSize="12dp"
             android:gravity="center_vertical"
             android:text="Created At"
-            android:layout_margin="20dp" android:layout_centerVertical="true"/>
+            android:layout_margin="15dp" android:layout_centerVertical="true"/>
     </RelativeLayout>
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_below="@+id/dv_userInfo"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+    <!--<LinearLayout-->
+        <!--android:orientation="horizontal"-->
+        <!--android:layout_below="@+id/dv_userInfo"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="wrap_content">-->
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+        <!--<LinearLayout-->
+            <!--android:orientation="vertical"-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="wrap_content">-->
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="Post text"
-                android:id="@+id/dv_postText" android:layout_margin="20dp"
+                android:layout_below="@id/dv_userInfo"
+                android:id="@+id/dv_postText" android:layout_margin="15dp"
                 android:textSize="20dp" android:textIsSelectable="false"/>
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="center"
-                android:id="@+id/dv_postPicture" android:focusableInTouchMode="false"
-                android:focusable="false" android:cropToPadding="true" android:clickable="false"
-                android:baselineAlignBottom="false" android:layout_margin="20dp"
-                android:layout_gravity="center"/>
-        </LinearLayout>
-    </LinearLayout>
     <Button
         android:id="@+id/dv_deleteButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:text="Delete"
+        android:visibility="invisible"
         android:background="#e84c3d"
-        android:layout_margin="20dp"/>
+        android:layout_margin="15dp"/>
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:scaleType="fitXY"
+                android:id="@+id/dv_postPicture"
+                android:layout_below="@id/dv_postText"
+                android:layout_above="@id/dv_deleteButton"
+                android:focusableInTouchMode="false"
+                android:focusable="false" android:clickable="false"
+                android:baselineAlignBottom="false"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center"/>
+        <!--</LinearLayout>-->
+    <!--</LinearLayout>-->
 </RelativeLayout>

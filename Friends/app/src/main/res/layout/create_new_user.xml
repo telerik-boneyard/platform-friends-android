@@ -35,7 +35,7 @@
             android:inputType="textPersonName"
             android:ems="10"
             android:layout_marginTop="5dp"
-            android:singleLine="false"/>
+            android:singleLine="false" android:text="Petar Petrov"/>
         <EditText
             android:id="@+id/cnu_email"
             android:background="#FFFFFF"
@@ -47,7 +47,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:layout_marginTop="1dp"
-            android:singleLine="false" android:inputType="textEmailAddress"/>
+            android:singleLine="false" android:inputType="textEmailAddress"
+            android:text="pp@gmail.com"/>
         <EditText
             android:id="@+id/cnu_username"
             android:background="#FFFFFF"
@@ -60,7 +61,7 @@
             android:inputType="textPersonName"
             android:ems="10"
             android:layout_marginTop="1dp"
-            android:singleLine="false"/>
+            android:singleLine="false" android:text="ppetrov"/>
         <EditText
             android:id="@+id/cnu_password"
             android:background="#FFFFFF"
@@ -73,7 +74,7 @@
             android:inputType="textPassword"
             android:ems="10"
             android:layout_marginTop="1dp"
-            android:singleLine="false"/>
+            android:singleLine="false" android:text="asd"/>
         <EditText
             android:id="@+id/cnu_birthday"
             android:background="#FFFFFF"
@@ -83,59 +84,71 @@
             android:hint="Birthday"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:inputType="date"
+            android:inputType="none"
             android:ems="10"
             android:layout_marginTop="1dp"
+            android:editable="false"
             android:singleLine="false"/>
-    </LinearLayout>
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="7dp"
-        android:layout_below="@id/cnu_basicElementsContainer">
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent" android:layout_weight="12">
-            <ToggleButton
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:id="@+id/cnu_maleButton" android:textOn="Male" android:textOff="Male"
-                android:singleLine="false"/>
-            <ToggleButton
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:id="@+id/cnu_femaleButton" android:textOn="Female" android:textOff="Female"
-                android:singleLine="false"/>
-        </LinearLayout>
         <EditText
             android:id="@+id/cnu_about"
             android:background="#FFFFFF"
             android:textColorHint="#42000000"
             android:textColor="#000000"
-            android:paddingLeft="12dp"
+            android:padding="12dp"
             android:hint="About"
             android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="10"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
             android:inputType="textMultiLine"
             android:ems="10"
-            android:layout_marginTop="7dp"
-            android:singleLine="false"/>
+            android:layout_marginTop="1dp"
+            android:minLines="4"
+            android:singleLine="false" android:text="about"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="2"
+            android:layout_marginTop="10dp">
+            <ToggleButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/cnu_maleButton"
+                android:textOn="Male"
+                android:textOff="Male"
+                />
+            <ToggleButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/cnu_femaleButton"
+                android:textOn="Female"
+                android:textOff="Female"
+                />
+        </LinearLayout>
+    </LinearLayout>
+    <!--<LinearLayout-->
+        <!--android:id="@+id/cnu_genderAboutContainer"-->
+        <!--android:orientation="vertical"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="fill_parent"-->
+        <!--android:layout_marginLeft="15dp"-->
+        <!--android:layout_marginRight="15dp"-->
+        <!--android:layout_marginTop="7dp"-->
+        <!--android:layout_below="@id/cnu_basicElementsContainer">-->
         <Button
             android:id="@+id/cnu_register"
             android:layout_width="fill_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:layout_alignParentBottom="true"
             android:layout_marginTop="7dp"
             android:layout_marginBottom="7dp"
-            android:layout_weight="10"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
             android:text="Register"
             android:background="#16a086"
             android:enabled="false"/>
-    </LinearLayout>
+    <!--</LinearLayout>-->
 </RelativeLayout>

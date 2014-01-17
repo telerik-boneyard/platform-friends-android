@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.telerik.app.tasks.BitmapDownloadTask;
 import com.telerik.everlive.sdk.core.result.RequestResult;
 import com.telerik.everlive.sdk.core.result.RequestResultCallbackAction;
 
@@ -98,7 +99,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
                     }
                 });
                 UUID pictureId = user.getPictureId();
-                BitmapDownloadTask task = new BitmapDownloadTask(this.parentView.getContext(), postHolder.userImage, false);
+                BitmapDownloadTask task = new BitmapDownloadTask(this.parentView.getContext(), postHolder.userImage, ImageKind.User);
                 task.execute(pictureId != null ? pictureId.toString() : null);
             }
         }

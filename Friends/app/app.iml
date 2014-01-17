@@ -73,6 +73,7 @@
     <orderEntry type="module" module-name="facebook" exported="" />
     <orderEntry type="library" exported="" name="LiveSDK-for-Android-master" level="project" />
     <orderEntry type="library" exported="" name="support-v4-19.0.1" level="project" />
+    <orderEntry type="library" exported="" name="analyticsmonitor" level="project" />
     <orderEntry type="library" exported="" name="AndroidSDK" level="project" />
     <orderEntry type="library" exported="" name="google-play-services" level="project" />
   </component>
