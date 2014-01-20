@@ -5,7 +5,7 @@
     <!--your live id client id-->
     <string name="live_id_client_id">000000004C10D1AF</string>
     <!--your everlive api key-->
-    <string name="everlive_api_key">9Hszw6CETUzpynmN</string>
+    <string name="everlive_api_key">your everlive api key</string>
     <!--your eqatec app id-->
-    <string name="eqatec_app_id">a9617707352f4e05b3b94eb391d5ca19</string>
+    <string name="eqatec_app_id">your eqatec app id</string>
 </resources>
