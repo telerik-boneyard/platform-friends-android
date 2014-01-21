@@ -1,4 +1,4 @@
-package com.telerik.app;
+package com.telerik.app.activities;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -13,6 +13,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ToggleButton;
 
+import com.telerik.app.R;
 import com.telerik.everlive.sdk.core.query.definition.UserSecretInfo;
 import com.telerik.everlive.sdk.core.result.RequestResult;
 import com.telerik.everlive.sdk.core.result.RequestResultCallbackAction;
@@ -22,8 +23,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import model.BaseViewModel;
-import model.MyUser;
+import com.telerik.app.model.BaseViewModel;
+import com.telerik.app.model.MyUser;
 
 public class CreateNewUserActivity extends Activity implements View.OnClickListener {
 

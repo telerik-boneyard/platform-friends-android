@@ -1,4 +1,4 @@
-package model;
+package com.telerik.app.model;
 
 import android.graphics.Bitmap;
 

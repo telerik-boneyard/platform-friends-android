@@ -1,6 +1,7 @@
 package com.telerik.app.tasks;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 
@@ -8,21 +9,22 @@ import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.auth.UserRecoverableAuthException;
 import com.google.android.gms.common.Scopes;
-import com.telerik.app.LoginActivity;
-import com.telerik.app.LoginRequestResultCallbackAction;
+import com.telerik.app.activities.LoginActivity;
 
 import java.io.IOException;
 
-import model.BaseViewModel;
+import com.telerik.app.model.BaseViewModel;
 
 public class GoogleLoginTask extends AsyncTask {
     private String token;
     private String accountName;
     private Activity activity;
+    private ProgressDialog progressDialog;
 
-    public GoogleLoginTask(Activity activity, String accountName) {
+    public GoogleLoginTask(Activity activity, String accountName, ProgressDialog progressDialog) {
         this.activity = activity;
         this.accountName = accountName;
+        this.progressDialog = progressDialog;
     }
 
     @Override
@@ -34,7 +36,7 @@ public class GoogleLoginTask extends AsyncTask {
             BaseViewModel.EverliveAPP.workWith().
                     authentication().
                     loginWithGoogle(this.token).
-                    execute(new LoginRequestResultCallbackAction(this.activity, "Google"));
+                    execute(new LoginRequestResultCallbackAction(this.activity, "Google", this.progressDialog));
         } catch (UserRecoverableAuthException e) {
             Intent recover = e.getIntent();
             activity.startActivityForResult(recover, LoginActivity.REQUEST_CODE_RESOLVE_ERR);

@@ -1,4 +1,4 @@
-package com.telerik.app;
+package com.telerik.app.activities;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -14,13 +14,15 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.telerik.app.utils.PostAdapter;
+import com.telerik.app.R;
 import com.telerik.everlive.sdk.core.result.RequestResult;
 import com.telerik.everlive.sdk.core.result.RequestResultCallbackAction;
 
 import java.util.ArrayList;
 
-import model.BaseViewModel;
-import model.Post;
+import com.telerik.app.model.BaseViewModel;
+import com.telerik.app.model.Post;
 
 public class ListActivity extends Activity {
 

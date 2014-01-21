@@ -1,4 +1,4 @@
-package com.telerik.app;
+package com.telerik.app.activities;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
@@ -32,7 +32,10 @@ import com.microsoft.live.LiveAuthListener;
 import com.microsoft.live.LiveConnectClient;
 import com.microsoft.live.LiveConnectSession;
 import com.microsoft.live.LiveStatus;
+import com.telerik.app.utils.AccountChooser;
+import com.telerik.app.R;
 import com.telerik.app.tasks.GoogleLoginTask;
+import com.telerik.app.tasks.LoginRequestResultCallbackAction;
 import com.telerik.everlive.sdk.core.EverliveApp;
 
 import java.net.URISyntaxException;
@@ -41,7 +44,7 @@ import java.util.Arrays;
 import eqatec.analytics.monitor.AnalyticsMonitorFactory;
 import eqatec.analytics.monitor.IAnalyticsMonitor;
 import eqatec.analytics.monitor.Version;
-import model.BaseViewModel;
+import com.telerik.app.model.BaseViewModel;
 
 public class LoginActivity extends Activity implements View.OnClickListener,
         GooglePlayServicesClient.ConnectionCallbacks,
@@ -69,9 +72,7 @@ public class LoginActivity extends Activity implements View.OnClickListener,
 
         getActionBar().hide();
 
-        if (getIntent().getAction() != null) {
-            this.checkAppSettings();
-        }
+        this.checkAppSettings(getIntent().getAction() != null);
 
         connectionProgressDialog = new ProgressDialog(this);
         connectionProgressDialog.setMessage("Logging in ...");
@@ -99,7 +100,7 @@ public class LoginActivity extends Activity implements View.OnClickListener,
         return monitor;
     }
 
-    private void checkAppSettings() {
+    private void checkAppSettings(boolean showMessage) {
         StringBuilder sb = new StringBuilder();
         String EOL = "\r\n";
 
@@ -135,11 +136,7 @@ public class LoginActivity extends Activity implements View.OnClickListener,
             BaseViewModel.getInstance().setMonitor(monitor);
         }
 
-        for (String accountName : getAccountNames()) {
-            sb.append(accountName + EOL);
-        }
-
-        if (sb.length() > 0) {
+        if (showMessage && sb.length() > 0) {
             this.showAlertMessage(this, sb.toString().substring(0, sb.length() - 2), null);
         }
     }
@@ -236,11 +233,12 @@ public class LoginActivity extends Activity implements View.OnClickListener,
         BaseViewModel.EverliveAPP.getConnectionSettings().setUseHttps(true);
         BaseViewModel.EverliveAPP.workWith().authentication().
                 loginWithADFS(this.username.getText().toString(), this.password.getText().toString()).
-                executeAsync(new LoginRequestResultCallbackAction(this, "ADFS"));
+                executeAsync(new LoginRequestResultCallbackAction(this, "ADFS", connectionProgressDialog));
         connectionProgressDialog.dismiss();
     }
 
     public void onLiveIDLogin() {
+        connectionProgressDialog.show();
         String liveAppID = getString(R.string.live_id_client_id);
         this.auth = new LiveAuthClient(this, liveAppID);
         this.auth.login(this, Arrays.asList(new String[]{"wl.basic"}), new LiveAuthListener() {
@@ -249,7 +247,7 @@ public class LoginActivity extends Activity implements View.OnClickListener,
                     String liveIdAccessToken = session.getAccessToken();
                     BaseViewModel.EverliveAPP.workWith().
                             authentication().
-                            loginWithLiveId(liveIdAccessToken).executeAsync(new LoginRequestResultCallbackAction(LoginActivity.this, "LiveID"));
+                            loginWithLiveId(liveIdAccessToken).executeAsync(new LoginRequestResultCallbackAction(LoginActivity.this, "LiveID", connectionProgressDialog));
                     client = new LiveConnectClient(session);
                 } else {
                     Toast.makeText(getBaseContext(), "Not Signed in with LiveID!", Toast.LENGTH_LONG).show();
@@ -273,7 +271,7 @@ public class LoginActivity extends Activity implements View.OnClickListener,
     }
 
     private void onFacebookLogin() {
-
+        connectionProgressDialog.show();
         Session activeSession = Session.getActiveSession();
 
         if (activeSession == null) {
@@ -288,7 +286,7 @@ public class LoginActivity extends Activity implements View.OnClickListener,
                     BaseViewModel.EverliveAPP.workWith().
                             authentication().
                             loginWithFacebook(session.getAccessToken()).
-                            executeAsync(new LoginRequestResultCallbackAction(LoginActivity.this, "Facebook"));
+                            executeAsync(new LoginRequestResultCallbackAction(LoginActivity.this, "Facebook", connectionProgressDialog));
                 }
             }
         };
@@ -305,8 +303,7 @@ public class LoginActivity extends Activity implements View.OnClickListener,
         BaseViewModel.EverliveAPP.workWith().
                 authentication().
                 login(this.username.getText().toString(), this.password.getText().toString()).
-                executeAsync(new LoginRequestResultCallbackAction(this, "Regular"));
-        connectionProgressDialog.dismiss();
+                executeAsync(new LoginRequestResultCallbackAction(this, "Regular", connectionProgressDialog));
     }
 
     public static void startListActivity(Activity activity) {
@@ -334,13 +331,13 @@ public class LoginActivity extends Activity implements View.OnClickListener,
         GoogleLoginTask task;
         String[] accounts = getAccountNames();
         if (accounts.length > 1) {
-            new AccountChooser(this, accounts).show();
+            new AccountChooser(this, accounts, connectionProgressDialog).show();
 //            accountName = BaseViewModel.getInstance().getSelectedAccount();
 //            task = new GoogleLoginTask(context, accountName);
 //            task.execute((Void) null);
         } else {
             accountName = accounts[0];
-            task = new GoogleLoginTask(this, accountName);
+            task = new GoogleLoginTask(this, accountName, connectionProgressDialog);
             task.execute((Void) null);
         }
     }

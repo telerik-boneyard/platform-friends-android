@@ -8,7 +8,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.telerik.app.LoginActivity"
+            android:name=".activities.LoginActivity"
             android:label="@string/app_name"
             android:screenOrientation="sensorPortrait" >
             <intent-filter>
@@ -17,10 +17,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ListActivity" android:screenOrientation="sensorPortrait" />
-        <activity android:name=".DetailViewActivity" android:screenOrientation="sensorPortrait" />
-        <activity android:name=".CreateNewPostActivity" android:screenOrientation="sensorPortrait" />
-        <activity android:name=".CreateNewUserActivity" android:screenOrientation="sensorPortrait" />
+        <activity android:name=".activities.ListActivity" android:screenOrientation="sensorPortrait" />
+        <activity android:name=".activities.DetailViewActivity" android:screenOrientation="sensorPortrait" />
+        <activity android:name=".activities.CreateNewPostActivity" android:screenOrientation="sensorPortrait" />
+        <activity android:name=".activities.CreateNewUserActivity" android:screenOrientation="sensorPortrait" />
         <activity android:name="com.facebook.LoginActivity" android:screenOrientation="sensorPortrait"/>
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
         <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />

@@ -30,7 +30,7 @@ import java.util.concurrent.Executor;
 
 /**
  * Defines an AsyncTask suitable for executing a Request in the background. May be subclassed
- * by applications having unique threading model needs.
+ * by applications having unique threading com.telerik.app.model needs.
  */
 @TargetApi(3)
 public class RequestAsyncTask extends AsyncTask<Void, Void, List<Response>> {

@@ -1,6 +1,8 @@
-package com.telerik.app;
+package com.telerik.app.activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -8,6 +10,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.telerik.app.R;
+import com.telerik.app.model.ImageKind;
 import com.telerik.app.tasks.BitmapDownloadTask;
 import com.telerik.everlive.sdk.core.result.RequestResult;
 import com.telerik.everlive.sdk.core.result.RequestResultCallbackAction;
@@ -15,9 +19,9 @@ import com.telerik.everlive.sdk.core.result.RequestResultCallbackAction;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
-import model.BaseViewModel;
-import model.MyUser;
-import model.Post;
+import com.telerik.app.model.BaseViewModel;
+import com.telerik.app.model.MyUser;
+import com.telerik.app.model.Post;
 
 public class DetailViewActivity extends Activity implements View.OnClickListener {
 
@@ -90,18 +94,28 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.dv_deleteButton : {
-                BaseViewModel.EverliveAPP.workWith().
-                        data(Post.class).
-                        deleteById(this.selectedPost.getId()).
-                        executeAsync(new RequestResultCallbackAction() {
-                            @Override
-                            public void invoke(RequestResult requestResult) {
-                                if (requestResult.getSuccess()) {
-                                    Intent i = new Intent(DetailViewActivity.this, ListActivity.class);
-                                    startActivity(i);
-                                }
-                            }
-                        });
+                AlertDialog.Builder confirmDialogBuilder = new AlertDialog.Builder(this);
+                confirmDialogBuilder.setTitle("Confirm delete");
+                confirmDialogBuilder.setMessage("Are you sure you want to delete this Post?");
+                confirmDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        BaseViewModel.EverliveAPP.workWith().
+                                data(Post.class).
+                                deleteById(DetailViewActivity.this.selectedPost.getId()).
+                                executeAsync(new RequestResultCallbackAction() {
+                                    @Override
+                                    public void invoke(RequestResult requestResult) {
+                                        if (requestResult.getSuccess()) {
+                                            Intent i = new Intent(DetailViewActivity.this, ListActivity.class);
+                                            startActivity(i);
+                                        }
+                                    }
+                                });
+                    }
+                });
+                confirmDialogBuilder.setNegativeButton("Cancel", null);
+                confirmDialogBuilder.create().show();
                 break;
             }
         }

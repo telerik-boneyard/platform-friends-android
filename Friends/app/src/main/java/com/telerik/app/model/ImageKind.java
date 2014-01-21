@@ -1,4 +1,4 @@
-package com.telerik.app;
+package com.telerik.app.model;
 
 public enum ImageKind {
     User,

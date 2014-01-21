@@ -1,4 +1,4 @@
-package model;
+package com.telerik.app.model;
 
 import com.telerik.everlive.sdk.core.model.system.User;
 import com.telerik.everlive.sdk.core.serialization.ServerProperty;

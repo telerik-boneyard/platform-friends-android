@@ -4,9 +4,10 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.ImageView;
 
-import com.telerik.app.ImageKind;
+import com.telerik.app.model.ImageKind;
 import com.telerik.app.R;
 import com.telerik.everlive.sdk.core.model.system.File;
 import com.telerik.everlive.sdk.core.result.RequestResult;
@@ -16,7 +17,7 @@ import java.lang.ref.WeakReference;
 import java.net.URL;
 import java.util.UUID;
 
-import model.BaseViewModel;
+import com.telerik.app.model.BaseViewModel;
 
 public class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
     private final WeakReference<ImageView> imageViewWeakReference;
@@ -62,7 +63,7 @@ public class BitmapDownloadTask extends AsyncTask<String, Void, Bitmap> {
                 }
             }
         } catch (Exception ex) {
-//            Log.e("Exception when downloading image: ", ex.getMessage().toString());
+            Log.e("Exception when downloading image: ", ex.getMessage().toString());
         }
         return null;
     }
