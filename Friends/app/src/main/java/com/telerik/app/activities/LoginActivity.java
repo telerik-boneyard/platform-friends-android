@@ -234,7 +234,6 @@ public class LoginActivity extends Activity implements View.OnClickListener,
         BaseViewModel.EverliveAPP.workWith().authentication().
                 loginWithADFS(this.username.getText().toString(), this.password.getText().toString()).
                 executeAsync(new LoginRequestResultCallbackAction(this, "ADFS", connectionProgressDialog));
-        connectionProgressDialog.dismiss();
     }
 
     public void onLiveIDLogin() {
