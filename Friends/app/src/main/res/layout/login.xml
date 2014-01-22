@@ -42,7 +42,7 @@
               android:layout_marginRight="15dp"
               android:singleLine="false"
               android:textColorHint="#42000000"
-              android:text="everlfstest"/>
+        />
     <EditText android:id="@+id/l_password"
               android:background="#FFFFFF"
               android:textColor="#000000"
@@ -58,7 +58,7 @@
               android:layout_marginRight="15dp"
               android:layout_marginTop="1dp"
               android:textColorHint="#42000000"
-              android:text="z=@$8G9K1Tjp94c"/>
+        />
     <Button android:id="@+id/l_login"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

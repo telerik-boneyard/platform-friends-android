@@ -108,7 +108,7 @@ public class CreateNewUserActivity extends Activity implements View.OnClickListe
 
         final MyUser user = new MyUser();
         user.setDisplayName(this.name.getText().toString());
-        user.setUserName(this.username.getText().toString());
+        user.setUsername(this.username.getText().toString());
         user.setEmail(this.email.getText().toString());
 
         try {

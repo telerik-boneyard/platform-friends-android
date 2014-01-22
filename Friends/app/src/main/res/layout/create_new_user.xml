@@ -35,7 +35,7 @@
             android:inputType="textPersonName"
             android:ems="10"
             android:layout_marginTop="5dp"
-            android:singleLine="false" android:text="Petar Petrov"/>
+            android:singleLine="false"/>
         <EditText
             android:id="@+id/cnu_email"
             android:background="#FFFFFF"
@@ -48,7 +48,7 @@
             android:ems="10"
             android:layout_marginTop="1dp"
             android:singleLine="false" android:inputType="textEmailAddress"
-            android:text="pp@gmail.com"/>
+            />
         <EditText
             android:id="@+id/cnu_username"
             android:background="#FFFFFF"
@@ -61,7 +61,7 @@
             android:inputType="textPersonName"
             android:ems="10"
             android:layout_marginTop="1dp"
-            android:singleLine="false" android:text="ppetrov"/>
+            android:singleLine="false"/>
         <EditText
             android:id="@+id/cnu_password"
             android:background="#FFFFFF"
@@ -74,7 +74,7 @@
             android:inputType="textPassword"
             android:ems="10"
             android:layout_marginTop="1dp"
-            android:singleLine="false" android:text="asd"/>
+            android:singleLine="false"/>
         <EditText
             android:id="@+id/cnu_birthday"
             android:background="#FFFFFF"
@@ -103,7 +103,7 @@
             android:ems="10"
             android:layout_marginTop="1dp"
             android:minLines="4"
-            android:singleLine="false" android:text="about"/>
+            android:singleLine="false"/>
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
