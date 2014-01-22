@@ -15,7 +15,6 @@
             android:textSize="16dp"
             android:layout_alignParentRight="true"
             android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
             android:gravity="center_horizontal"/>
     </RelativeLayout>
     <RelativeLayout android:id="@+id/cna_userInfo"

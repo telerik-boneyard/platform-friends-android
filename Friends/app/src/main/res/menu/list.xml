@@ -1,6 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.telerik.app.ListActivity" >
+    tools:context="com.telerik.app.activities.ListActivity" >
 
     <item android:id="@+id/action_add"
         android:orderInCategory="200"

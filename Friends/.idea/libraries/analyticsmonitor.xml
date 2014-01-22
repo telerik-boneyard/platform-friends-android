@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="analyticsmonitor">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/app/libs/analyticsmonitor.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

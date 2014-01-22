@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">Friends</string>
-    <string name="app_id">229946233842989</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_post">Post</string>
     <string name="title_activity_list">ListActivity</string>
     <string name="title_activity_detail_view">DetailViewActivity</string>
     <string name="title_activity_create_new_post">CreateNewPostActivity</string>
     <string name="title_activity_create_new_user">CreateNewUserActivity</string>
-    <string name="action_settings">Settings</string>
-
 </resources>
