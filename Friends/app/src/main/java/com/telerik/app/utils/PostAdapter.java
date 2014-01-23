@@ -63,8 +63,14 @@ public class PostAdapter extends ArrayAdapter<Post> {
             holder.postText.setText(post.getText());
             DateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
             holder.postCreateDate.setText(dateFormat.format(post.getCreatedAt()).toUpperCase());
-            BaseViewModel.EverliveAPP.workWith().users(MyUser.class).getById(post.getUserId()).
-                    executeAsync(new MyRequestResultCallbackAction(holder, ((Activity) context).getCurrentFocus()));
+            if (post.getUserId() != null) {
+                BaseViewModel.EverliveAPP.workWith().users(MyUser.class).getById(post.getUserId()).
+                        executeAsync(new MyRequestResultCallbackAction(holder, ((Activity) context).getCurrentFocus()));
+            } else {
+                holder.userName.setText("Anonymous");
+                BitmapDownloadTask task = new BitmapDownloadTask(this.getContext(), holder.userImage, ImageKind.User);
+                task.execute(null);
+            }
 
         }
 
