@@ -1,0 +1,28 @@
+apply plugin: 'android'
+
+android {
+    compileSdkVersion 19
+    buildToolsVersion '19.0.1'
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 19
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            runProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+}
+
+dependencies {
+    compile files('libs/AndroidSDK.jar')
+    compile files('libs/google-play-services.jar')
+    compile files('libs/LiveSDK-for-Android-master.jar')
+    compile project(':facebook')
+    compile files('libs/analyticsmonitor.jar')
+    compile files('libs/MobileTestingExtension.jar')
+}

@@ -69,7 +69,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
             } else {
                 holder.userName.setText("Anonymous");
                 BitmapDownloadTask task = new BitmapDownloadTask(this.getContext(), holder.userImage, ImageKind.User);
-                task.execute(null);
+                task.execute((String[])null);
             }
 
         }
