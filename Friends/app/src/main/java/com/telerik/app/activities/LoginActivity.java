@@ -93,6 +93,7 @@ public class LoginActivity extends Activity implements View.OnClickListener,
 
         try {
             monitor = AnalyticsMonitorFactory.createMonitor(this, eqatec_app_id, version);
+            monitor.start();
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
