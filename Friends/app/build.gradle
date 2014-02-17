@@ -3,7 +3,6 @@ apply plugin: 'android'
 android {
     compileSdkVersion 19
     buildToolsVersion '19.0.1'
-
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 19
@@ -16,6 +15,21 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
+    productFlavors {
+        production {
+        }
+        testing {
+        }
+    }
+
+    // The Android Gradle Plugin does not merge the instrumentation tag properly via sourceSets,
+    // otherwise we would use that. Therefor, this code ensures that a unique manifest is used
+    // per flavor.
+    android.applicationVariants.all { variant ->
+        variant.processResources.manifestFile = file('src/' + variant.flavorName + '/AndroidManifest.xml')
+        variant.processManifest.enabled=false
+        println(variant.flavorName)
+    }
 }
 
 dependencies {
@@ -24,4 +38,5 @@ dependencies {
     compile files('libs/LiveSDK-for-Android-master.jar')
     compile project(':facebook')
     compile files('libs/analyticsmonitor.jar')
+    testingCompile files('libs/MobileTestingExtension.jar')
 }
