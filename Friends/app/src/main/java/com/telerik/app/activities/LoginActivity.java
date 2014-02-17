@@ -87,12 +87,12 @@ public class LoginActivity extends Activity implements View.OnClickListener,
 
     }
 
-    private IAnalyticsMonitor initializeAnalyticsService(String eqatec_app_id) {
+    private IAnalyticsMonitor initializeAnalyticsService(String analytics_app_id) {
         Version version = new Version("1.2.3");
         IAnalyticsMonitor monitor = null;
 
         try {
-            monitor = AnalyticsMonitorFactory.createMonitor(this, eqatec_app_id, version);
+            monitor = AnalyticsMonitorFactory.createMonitor(this, analytics_app_id, version);
             monitor.start();
         } catch (URISyntaxException e) {
             e.printStackTrace();
@@ -105,11 +105,11 @@ public class LoginActivity extends Activity implements View.OnClickListener,
         StringBuilder sb = new StringBuilder();
         String EOL = "\r\n";
 
-        String everlive_api_key = getString(R.string.everlive_api_key);
-        if (everlive_api_key != null && everlive_api_key.equals("your everlive api key")) {
-            sb.append("Everlive API Key is not set." + EOL);
+        String backend_services_api_key = getString(R.string.backend_services_api_key);
+        if (backend_services_api_key != null && backend_services_api_key.equals("your Backend Services api key")) {
+            sb.append("Backend Services API Key is not set." + EOL);
         } else {
-            BaseViewModel.EverliveAPP = new EverliveApp(everlive_api_key);
+            BaseViewModel.EverliveAPP = new EverliveApp(backend_services_api_key);
         }
 
         String facebook_app_id = getString(R.string.facebook_app_id);
@@ -129,9 +129,9 @@ public class LoginActivity extends Activity implements View.OnClickListener,
             findViewById(R.id.l_liveIDLogin).setOnClickListener(this);
         }
 
-        String analytics_app_id = getString(R.string.eqatec_app_id);
-        if (analytics_app_id != null && analytics_app_id.equals("your eqatec app id")) {
-            sb.append("EQATEC product key is not set. You cannot use EQATEC Analytics service." + EOL);
+        String analytics_app_id = getString(R.string.analytics_app_id);
+        if (analytics_app_id != null && analytics_app_id.equals("your Analytics Services app id")) {
+            sb.append("Analytics Services product key is not set. You cannot use Analytics Services." + EOL);
         } else {
             IAnalyticsMonitor monitor = initializeAnalyticsService(analytics_app_id);
             BaseViewModel.getInstance().setMonitor(monitor);

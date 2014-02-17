@@ -4,8 +4,8 @@
     <string name="facebook_app_id">1408629486049918</string>
     <!--your live id client id-->
     <string name="live_id_client_id">000000004C10D1AF</string>
-    <!--your everlive api key-->
-    <string name="everlive_api_key">your everlive api key</string>
-    <!--your eqatec app id-->
-    <string name="eqatec_app_id">your eqatec app id</string>
+    <!--your Backend Services api key-->
+    <string name="backend_services_api_key">your Backend Services api key</string>
+    <!--your Analytics Services app id-->
+    <string name="analytics_app_id">your Analytics Services app id</string>
 </resources>
