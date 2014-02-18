@@ -24,11 +24,12 @@ android {
 
     // The Android Gradle Plugin does not merge the instrumentation tag properly via sourceSets,
     // otherwise we would use that. Therefor, this code ensures that a unique manifest is used
-    // per flavor.
+    // for the 'testing' flavor.
     android.applicationVariants.all { variant ->
-        variant.processResources.manifestFile = file('src/' + variant.flavorName + '/AndroidManifest.xml')
-        variant.processManifest.enabled=false
-        println(variant.flavorName)
+        if (variant.flavorName == "testing") {
+            variant.processResources.manifestFile = file('src/' + variant.flavorName + '/AndroidManifest.xml')
+            variant.processManifest.enabled=false
+        }
     }
 }
 
