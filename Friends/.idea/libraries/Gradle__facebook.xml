@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="Gradle: facebook">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/app/libs/facebook.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
