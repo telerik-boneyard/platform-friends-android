@@ -1,18 +1,41 @@
 spec(function() {
+	/**
+	 * Test Configuration
+	 */
+	var configuration = {
+		// NOTE: Update this to an existing Telerik Backend Services username and password
+		USERNAME: 'seth',
+		PASSWORD: '333333',
+
+		// NOTE: Update this to the iOS URL of the Friends App
+		IOS_URL: 'friends://',
+
+		// NOTE: Update this to the Android package name of the Friends App
+		ANDROID_PACKAGE: 'com.telerik.app'
+	};
+
+	/**
+	 * Queries
+	 * These are reusable queries for elements in the user interface.
+	 */
 	var queries = {
 		ios: {
+			globals: {
+				navigationBar: { class: 'UINavigationBar' }
+			},
 			login: {
-				usernameField: { class: 'UITextField', placeholder: 'Username' },
-				passwordField: { class: 'UITextField', placeholder: 'Password' },
+				usernameField: { class: 'UITextField', properties: { placeholder: 'Username' } },
+				passwordField: { class: 'UITextField', properties: { placeholder: 'Password' } },
 				loginButton: { class: 'TKUIButton', "text": 'Login' }
 			},
 			activities: {
-				addButton: { class: 'UIButton', frame: '{{281, 10}, {23, 23}}' },
-				logoutButton: { class: 'UIButton', currentTitle: 'Log out'}
+				tableView: { class: 'UITableView' },
+				addButton: { class: 'UIButton', index: 1 },
+				logoutButton: { class: 'UIButton', properties: { currentTitle: 'Log out'} }
 			},
 			activity: {
 				textView: { class: 'UITextView' },
-				postButton: { class: 'UINavigationButton', frame: '{{277, 8}, {35, 30}}' }
+				postButton: { class: 'UINavigationButton', properties: { 'currentTitle': 'Post' } }
 			}
 		},
 		android: {
@@ -31,26 +54,30 @@ spec(function() {
 		}
 	};
 
+	/**
+	 * Step Repository
+	 * These are reusable steps that perform actions in the application under test.
+	 */
 	var stepRepository = {
 		'Given Friends is running': {
 			'ios': [
-				ios.launch('tsfriends://')
+				ios.launch(configuration.IOS_URL)
 			],
 			'android': [
-				android.launch('com.telerik.app'),
+				android.launch(configuration.ANDROID_PACKAGE),
 				android.wait(1000)
 			]
 		},
 		'And is logged in': {
 			'ios': [
-				ios.setText(queries.ios.login.usernameField, "Telerik", false),
-				ios.setText(queries.ios.login.passwordField, "telerik", false),
+				ios.setText(queries.ios.login.usernameField, configuration.USERNAME),
+				ios.setText(queries.ios.login.passwordField, configuration.PASSWORD),
 				ios.tap(queries.ios.login.loginButton),
 				ios.wait(3000)
 			],
 			'android': [
-				android.setText(queries.android.login.usernameField, "seth"),
-				android.setText(queries.android.login.passwordField, "333333"),
+				android.setText(queries.android.login.usernameField, configuration.USERNAME),
+				android.setText(queries.android.login.passwordField, configuration.PASSWORD),
 				android.tap(queries.android.login.loginButton),
 				android.wait(3000)
 			]
@@ -69,7 +96,7 @@ spec(function() {
 
 		'And something on my mind is input': {
 			'ios': [
-				ios.setText(queries.ios.activity.textView, 'Hello World', true)
+				ios.typeText(queries.ios.activity.textView, 'Hello World')
 			],
 			'android': [
 				android.setText(queries.android.activity.textView, 'Hello World'),
@@ -99,24 +126,26 @@ spec(function() {
 		},
 		'Then the Activities screen should be displayed' : {
 			'ios': [
-				ios.getPropertyValue({class: 'UINavigationBar'}, 'topItem.title', function(result) {
+				ios.getPropertyValue(queries.ios.globals.navigationBar, 'topItem.title', function(result) {
 					assert(result).equals('Activities');
 				})
 			],
 			'android': [
-				android.getPropertyValue({ class: 'android.widget.TextView', index: 0 }, 'text', function (result) {
+				android.getPropertyValue({ class: 'android.widget.TextView', properties : { text: 'Activities' } }, 'text', function (result) {
 					assert(result).equals('Activities');
 				})
 			]
 		},
 		'Then the activity should be posted': {
 			'ios': [
-				ios.scrollToRow({ class: 'UITableView' }, 0, 0),
-				ios.getPropertyValue({ class: 'UILabel', text: 'Hello World' }, 'text', function(value) {
+				ios.wait(2000),
+				ios.scrollToRow(queries.ios.activities.tableView, 0, 0),
+				ios.getPropertyValue([{ class: 'UITableViewCell', index: 3 }, { class: 'UILabel', index: 2 }], 'text', function(value) {
 					assert(value).equals('Hello World');
 				})
 			],
 			'android': [
+				android.wait(2000),
 				android.getPropertyValue({ class: 'android.widget.TextView', properties: { 'text': 'Hello World' } }, 'text', function (value) {
 					assert(value).equals('Hello World');
 				})
@@ -136,7 +165,11 @@ spec(function() {
 		}
 	};
 
-	describe("Native: Verify button automation functions correctly", function() {
+	/**
+	 * Tests
+	 * These are the tests that will be performed against the application.
+	 */
+	describe("Verify activities user interface works as expected", function() {
 		test("Activities screen should display on login", function() {
 			step('Given Friends is running');
 			step('And is logged in');

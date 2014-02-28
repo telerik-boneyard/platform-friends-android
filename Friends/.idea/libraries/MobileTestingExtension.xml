@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="MobileTestingExtension">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/app/libs/MobileTestingExtension.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
