@@ -10,7 +10,6 @@ import java.util.UUID;
 import eqatec.analytics.monitor.IAnalyticsMonitor;
 
 public class BaseViewModel {
-//    private static String API_KEY = "E8tMoGEClJf0xmvV";
     public static EverliveApp EverliveAPP;
 
     private Post selectedPost;
