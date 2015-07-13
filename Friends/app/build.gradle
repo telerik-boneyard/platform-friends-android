@@ -36,5 +36,4 @@ dependencies {
     compile files('libs/LiveSDK-for-Android-master.jar')
     compile project(':facebook')
     compile files('libs/analyticsmonitor.jar')
-    testingCompile files('libs/MobileTestingExtension.jar')
 }
