@@ -10,6 +10,8 @@ tags: Sample App, Application, Android, Java, BaaS, mBaaS, Social, Analytics, So
 
 # Friends Sample App for Android
 
+<a href="https://github.com/telerik/platform-friends-android" target="_blank"><img style="padding-left:20px" src="http://docs.telerik.com/platform/appbuilder/sample-apps/images/get-github.png" alt="Get from GitHub" title="Get from GitHub"></a>
+
 * [Overview](#overview)
 * [Requirements](#requirements)
 * [Configuration](#configuration)
