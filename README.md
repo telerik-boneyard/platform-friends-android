@@ -132,6 +132,4 @@ Once the app is configured, click **Run** in Android Studio or Eclipse to run it
 
 > Ensure that the emulator or the device that you are using has Internet connectivity when running the sample.
 
-## Screenshots
-???
 
