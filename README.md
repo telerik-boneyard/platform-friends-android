@@ -1,12 +1,3 @@
----
-title: Telerik Friends Sample App for Android
-slug: sample-backend-services-friends-android
-position: 1
-publish: true
-page_title: Telerik Friends Sample App for Android | Telerik Platform
-description: 
-tags: Sample App, Application, Android, Java, BaaS, mBaaS, Social, Analytics, Social Login
----
 
 # Friends Sample App for Android
 
