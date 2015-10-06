@@ -33,6 +33,13 @@ To implement all the features listed above, the sample app utilizes the followin
 - LiveSDK-for-Android-master.jar - used for signing in to Telerik Backend Services using a Windows Account
 - Facebook Android library - used for signing in to Telerik Backend Services using a Facebook account
 
+## Screenshots
+
+Login Screen|Activity Stream|Activity Details
+---|---|---
+![Login Screen](https://raw.githubusercontent.com/telerik/platform-friends-android/master/screenshots/android-login-screen.png)|![Activities stream view](https://raw.githubusercontent.com/telerik/platform-friends-android/master/screenshots/android-activities-stream.png)|![Activity details view](https://raw.githubusercontent.com/telerik/platform-friends-android/master/screenshots/android-activity-details.png)
+
+
 ## Requirements
 
 Before you begin, you need to ensure that you have the following:
