@@ -1,5 +1,5 @@
 
-# Friends Sample App for Android
+# Telerik Friends Sample App for Android
 
 <a href="https://github.com/telerik/platform-friends-android" target="_blank"><img style="padding-left:20px" src="http://docs.telerik.com/platform/appbuilder/sample-apps/images/get-github.png" alt="Get from GitHub" title="Get from GitHub"></a>
 
