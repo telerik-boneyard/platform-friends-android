@@ -1,61 +1,135 @@
-Friends Sample App for Android
-=============================
-This repository contains the [Friends sample app](http://docs.telerik.com/platform/backend-services/samples/friends/friends-sample) for Android. The Friends app is a sample mobile app showcasing the integration of Telerik Platform services into an Android appllication. To download the source code, just click on the "Download ZIP" button.
 
+# Friends Sample App for Android
 
-## Showcased features and SDKs
+<a href="https://github.com/telerik/platform-friends-android" target="_blank"><img style="padding-left:20px" src="http://docs.telerik.com/platform/appbuilder/sample-apps/images/get-github.png" alt="Get from GitHub" title="Get from GitHub"></a>
 
-To implement all the features listed above, the sample app utilizes the following products and SDKs:
+* [Overview](#overview)
+* [Requirements](#requirements)
+* [Configuration](#configuration)
+* [Running the Sample](#running-the-sample)
 
-- Telerik Backend Services Android SDK - used to work with Telerik Backend Services.
-- Telerik Analytics Android SDK - used to work with Telerik Analytics.
-- google-play-services.jar - used to sign-in Telerik Backend Services using a Google account.
-- LiveSDK-for-Android-master.jar - used to sign-in Telerik Backend Services using a LiveID account.
-- Facebook Android library (as a different module) - used to sign-in Telerik Backend Services using a Facebook account.
+## Overview
+
+This repository contains the Telerik Friends app for iOS. It is a sample mobile app demonstrating how to integrate a large gamut of Telerik Platform services into a native iOS mobile application.
+
+The Telerik Friends sample app showcases these features and SDKs:
+
+- Cloud data access (Telerik Backend Services)
+- Working with files (Telerik Backend Services)
+- User registration and authentication (Telerik Backend Services)
+- Authentication with social login providers (Facebook, Google, etc.) (Telerik Backend Services)
+- Authentication with AD FS (Telerik Backend Services)
+- Using custom user account fields (Telerik Backend Services)
+- Basic app analytics (Telerik Analytics)
+- Tracking feature usage (Telerik Analytics)
+
+To implement all the features listed above, the sample app utilizes the following products, components, and SDKs:
+
+- Telerik Backend Services - this is where all data, files, and user accounts are stored in the cloud
+- Telerik Backend Services Android SDK - to connect the app to Telerik Backend Services
+- Telerik Analytics - used to store analytics data in the cloud
+- Telerik Analytics Android SDK - to connect the app with Telerik Analytics
+- google-play-services.jar - used for signing in to Telerik Backend Services using a Google account
+- LiveSDK-for-Android-master.jar - used for signing in to Telerik Backend Services using a Windows Account
+- Facebook Android library - used for signing in to Telerik Backend Services using a Facebook account
+
+## Screenshots
+
+Login Screen|Activity Stream|Activity Details
+---|---|---
+![Login Screen](https://raw.githubusercontent.com/telerik/platform-friends-android/master/screenshots/android-login-screen.png)|![Activities stream view](https://raw.githubusercontent.com/telerik/platform-friends-android/master/screenshots/android-activities-stream.png)|![Activity details view](https://raw.githubusercontent.com/telerik/platform-friends-android/master/screenshots/android-activity-details.png)
+
 
 ## Requirements
 
-The following is a list of requirements for the sample app:
+Before you begin, you need to ensure that you have the following:
 
-- **Active Telerik Platform account**  
-To use this sample app you must have an active Telerik Platform account. Depending on your license you may not be able to use all features of the app. For more information on what is included in the different editions, please check out the pricing page for the respective product. All features included in the sample app will work in the free trial period.
+- **An active Telerik Platform account**
+Ensure that you can log in to a Telerik Platform account. This can be a free trial account. Depending on your license you may not be able to use all app features. For more information on what is included in the different editions, check out the pricing page. All features included in the sample app work during the free trial period.
 
-- **Android Studio**  
-The sample project is created with the latest version of Android Studio (0.4.2) however it could be opened with any version of Android Studio. However you should modify build.gradle file in order to use a different version of gradle, since the project is created with gradle-1.9 (which is supported by latest Android Studio version).
+- **Android Studio** The sample project is created with Android Studio version 0.4.2 and gradle-1.9. If you want to use another version you may need to modify the `build.gradle` file to reflect the gradle version you are using.
 
+- **Android SDK** You need API level 8 or later to build the Facebook library project from the Facebook SDK. The Friends sample app itself requires API level 11 or later. The default project is set up to build for API level 19 (Android 4.4.2) but if you want to change that, edit `app/build.gradle` and set `compileSdkVersion`, `minSdkVersion`, and `targetVersion` to match you setup.
 
-- **Android SDK API level 8**  
-You need Android SDK for API level 8 in order to build Facebook library project (which is imported as is from Facebook SDK). Friends sample for Android require any API version above API level 11 (Android 3.0), because of using ActionBar class. The sample requires API level 19 (4.4.2) in order to build it, or you can edit app/build.gradle file and set appropriate to your setup values for compileSdkVersion, minSdkVersion and targetVersion.
+## Configuration
 
-## Configuring the sample app
 The Friends sample app comes fully functional, but to see it in action you must link it to your own Telerik Platform account.
 
 What you need to set:
 
-- **API key for Telerik Backend Services**  
-This links the sample mobile app to a project in Telerik Backend Services. When you activate Telerik Backend Services a Friends sample project is created for you automatically. It has necessary structure defined and some data pre-filled. You must use its API key.  
-To set the API key in the code, go to Friends/app/src/main/res/values/settings.xml and place your API key as a value of the "everlive_api_key" string resource.
+### API Key for Telerik Backend Services
+
+This is a unique string that links the sample mobile app to a project in Telerik Backend Services where all the data is read from/saved. When creating the project, you must base it on the Friends sample Backend Services project that has all the necessary data prepopulated.
+
+You must use this project's API key. To set it in the app:
+
+1. Open the `Friends/app/src/main/res/values/settings.xml` file.
+2. Find the `backend_services_api_key` string resource and set its value to the API Key of your Friends Backend Services project.
+
 > If you happen to break the structure of the automatically generated Friends sample project, you can delete it and a fresh instance will be created again for you automatically. Alternatively, you could create a new project and choose to start from a Friends template, instead of starting from a blank project.
 
-- [optional] **API key for Telerik Analytics**  
-This step is optional, it links the sample mobile app to a Telerik Analytics project in your account. If you do not set this the sample will still work, but no analytics data will collected. To set your Telerik Analytics app id go to Friends/app/src/main/res/values/settings.xml and place your Telerik Analytics app id obtained from [Telerik Analytics](http://www.telerik.com/analytics) 
+### (Optional) Project Key for Telerik Analytics
 
-- [optional] **Facebook app ID**  
-The sample app allows users to register using their Facebook account. We've pre-initialized the sample to use a Facebook app created by Telerik for the purpose. If you want, you can set it to use your own Facebook application by adjusting the Facebook app ID.
-You can set Facebook app ID by editing Friends/app/src/main/res/values/settings.xml file replacing string value named "facebook_app_id" with your Facebook App key. For more information about creating your own Facebook App you can refer to the official [Facebook documentation](https://developers.facebook.com/docs/android/getting-started/).
+This is a unique string that links the sample mobile app to a Telerik Analytics project in your account. If you do not set this the sample will still work, but no analytics data will be collected.
+	
+1. Open the `Friends/app/src/main/res/values/settings.xml` file.
+2. Find the `analytics_app_id` string resource and set its value to the Project Key of your Friends Analytics project.
 
-- [optional] **Google**  
-Since Android version 2.1 all accounts are managed by AccountManager, so in order to be able to use a different Google account to sign-in Telerik Backend Services this account should be added on the Android device via Settings->Accounts->Add new account. In case of having more than one Google account, sample app will provide a chooser dialog when sign-in with Google.
-> Note that Google account login cannot be used on an emulator, since there is no option to install Google-Play-Services and also no option to add a Google account.
+### (Optional) Facebook App ID
+To demonstrate social login, we've pre-initialized the sample to use a purpose-built Facebook app by Telerik. However, you still need to enable Facebook integration in the Telerik Platform portal:
 
-- [optional] **Windows Live**  
-The sample app allows users to register using their LiveID account. We've pre-initialized the sample to use a LiveID app created by Telerik for the purpose. If you want, you can set it to use your own LiveID application by adjusting the LiveID app ID.
-You can set LiveID app ID by editing Friends/app/src/main/res/values/settings.xml file replacing string value named "live_id_client_id" with your LiveID client ID.
+1. Go to your app.
+2. Click the Backend Services project that you are using.
+3. Navigate to **Users > Authentication**.
+4. Ensure that the Facebook box is checked.
 
-- [optional] **Active Directory Federation Services(ADFS)**  
-The sample app allows users to register using ADFS active federation (by providing username and password). In order to use ADFS login, you should configure your Telerik Backend Services account and your Active Directory service. For more information you can refer to [this help article](http://docs.telerik.com/platform/backend-services/development/android-sdk/users/adfs-provider).
+> Note that if you intend to use the code for a production app you need to set up your own Facebook application and adjust the Facebook app ID as follows:
+	
+1. Open the `Friends/app/src/main/res/values/settings.xml` file.
+2. Find the `facebook_app_id` string resource and set its value to your Facebook app ID.
 
-## Running the sample app
-Once the app is configured as described in the previous section, you can run it either on a real device or on an emulator. Just click "Run" in Android Studio or Eclipse.
+### (Optional) Google Client ID
 
-> Make sure the emulator or the device you use have working Internet connection when running the sample. Internet connection is necessary in order to connect to the cloud.
+The sample app allows users to register using their Google ID.
+
+To try this integration, make the following configurations:
+
+1. Log in to the Telerik Platform Portal.
+2. Go to your app.
+3. Click the Backend Services project that you are using.
+4. Navigate to **Users > Authentication**.
+5. Ensure that the Google box is checked.
+6. Fill in your Google Account details on the device that you are using for testing. In case you have more than one Google account, the app prompt you to select the one to use.
+
+### (Optional) Microsoft Account
+
+To demonstrate social login, we've pre-initialized the sample to use a  Microsoft Account Client ID owned by Telerik. However, you still need to enable Microsoft Account integration in the Telerik Platform portal:
+
+1. Go to your app.
+2. Click the Backend Services project that you are using.
+3. Navigate to **Users > Authentication**.
+4. Ensure that the Windows Live box is checked.
+
+> Note that if you intend to use the code for a production app you need to set up your own Microsoft Account Client ID and adjust the code as follows:
+
+1. Open the `Friends/app/src/main/res/values/settings.xml` file.
+2. Find the `live_id_client_id` string resource and set its value to your Microsoft Account app ID.
+
+### (Optional) Active Directory Federation Services (AD FS)
+
+The sample app allows users to [register using AD FS](http://docs.telerik.com/platform/backend-services/javascript/users/adfs-login/introduction). To try this integration, configure the following:
+
+1. Log in to the Telerik Platform portal.
+2. Go to your app.
+3. Click the Backend Services project that you are using.
+4. Navigate to **Users > Authentication**.
+5. Ensure that the Active Directory box is checked.
+6. Fill in **ADFS metadata URL** with your AD FS server's metadata URL.
+
+## Running the Sample
+
+Once the app is configured, click **Run** in Android Studio or Eclipse to run it either on a real device or in an emulator.
+
+> Ensure that the emulator or the device that you are using has Internet connectivity when running the sample.
+
+
