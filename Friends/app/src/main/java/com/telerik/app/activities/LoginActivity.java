@@ -105,11 +105,11 @@ public class LoginActivity extends Activity implements View.OnClickListener,
         StringBuilder sb = new StringBuilder();
         String EOL = "\r\n";
 
-        String backend_services_api_key = getString(R.string.backend_services_api_key);
-        if (backend_services_api_key != null && backend_services_api_key.equals("your Backend Services api key")) {
-            sb.append("Backend Services API Key is not set." + EOL);
+        String telerik_app_id = getString(R.string.telerik_app_id);
+        if (telerik_app_id != null && telerik_app_id.equals("your Telerik App ID")) {
+            sb.append("Telerik App ID is not set." + EOL);
         } else {
-            BaseViewModel.EverliveAPP = new EverliveApp(backend_services_api_key);
+            BaseViewModel.EverliveAPP = new EverliveApp(telerik_app_id);
         }
 
         String facebook_app_id = getString(R.string.facebook_app_id);

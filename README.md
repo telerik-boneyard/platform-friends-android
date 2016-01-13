@@ -68,7 +68,7 @@ The Friends sample app comes fully functional, but to see it in action you must 
 This is a unique string that links the sample mobile app to your Telerik Platform account where all the data is read from/saved. To set it in the app code:
 
 1. Open the `Friends/app/src/main/res/values/settings.xml` file.
-2. Find the `backend_services_api_key` string resource and set its value to the App ID of your Telerik Platform app.
+2. Find the `telerik_app_id` string resource and set its value to the App ID of your Telerik Platform app.
 
 ## (Optional) Project Key for Telerik Analytics
 
