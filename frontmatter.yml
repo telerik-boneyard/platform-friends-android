@@ -5,3 +5,4 @@ publish: true
 page_title: Telerik Friends Sample App for Android | Telerik Platform
 description: A full-featured social demo app that shows how to integrate a large gamut of Telerik Platform services into a native Android application.
 tags: Sample App, Application, Android, Java, BaaS, mBaaS, Social, Analytics, Social Login
+repo_kind: "Android Native"
